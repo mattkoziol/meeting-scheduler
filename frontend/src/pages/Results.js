@@ -12,7 +12,6 @@ function formatHour(hour) {
 
 function getColor(count, max) {
   if (!count) return '#eee';
-  const intensity = Math.round((count / max) * 200) + 55;
   return `rgb(30, 144, 255, ${0.2 + 0.8 * (count / max)})`;
 }
 
