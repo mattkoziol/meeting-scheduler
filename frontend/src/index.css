@@ -1,0 +1,24 @@
+/* Optionally add Tailwind via CDN in public/index.html for quick prototyping:
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+*/
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #f8fafc;
+  margin: 0;
+}
+
+.max-w-xl, .max-w-md, .max-w-4xl {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  th, td {
+    min-width: 80px;
+    box-sizing: border-box;
+  }
+}
