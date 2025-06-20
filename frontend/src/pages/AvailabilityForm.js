@@ -22,6 +22,20 @@ export default function AvailabilityForm({ onSubmitted }) {
     setSelected(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const handleSelectAllForDay = (day) => {
+    const newSelected = { ...selected };
+    const allForDaySelected = hours.every(hour => 
+      !!newSelected[`${day}_${hour.toString().padStart(2, '0')}`]
+    );
+
+    hours.forEach(hour => {
+      const key = `${day}_${hour.toString().padStart(2, '0')}`;
+      newSelected[key] = !allForDaySelected;
+    });
+
+    setSelected(newSelected);
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
@@ -79,30 +93,43 @@ export default function AvailabilityForm({ onSubmitted }) {
             <table className="availability-table">
               <thead>
                 <tr>
-                  <th></th>
+                  <th>Day</th>
+                  <th>Actions</th>
                   {hours.map(hour => (
                     <th key={hour}>{formatHour(hour)}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {days.map(day => (
-                  <tr key={day}>
-                    <td>{day}</td>
-                    {hours.map(hour => {
-                      const key = `${day}_${hour.toString().padStart(2, '0')}`;
-                      return (
-                        <td key={key}>
-                          <input
-                            type="checkbox"
-                            checked={!!selected[key]}
-                            onChange={() => handleCheck(day, hour)}
-                          />
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
+                {days.map(day => {
+                  const allForDaySelected = hours.every(hour => !!selected[`${day}_${hour.toString().padStart(2, '0')}`]);
+                  return (
+                    <tr key={day}>
+                      <td>{day}</td>
+                      <td>
+                        <button
+                          type="button"
+                          className="day-action-button"
+                          onClick={() => handleSelectAllForDay(day)}
+                        >
+                          {allForDaySelected ? 'Deselect' : 'Select All'}
+                        </button>
+                      </td>
+                      {hours.map(hour => {
+                        const key = `${day}_${hour.toString().padStart(2, '0')}`;
+                        return (
+                          <td key={key}>
+                            <input
+                              type="checkbox"
+                              checked={!!selected[key]}
+                              onChange={() => handleCheck(day, hour)}
+                            />
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

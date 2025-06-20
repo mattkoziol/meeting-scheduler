@@ -136,6 +136,22 @@ body {
   border-right: 1px solid #e2e8f0;
 }
 
+.day-action-button {
+  background: none;
+  border: 1px solid #cbd5e1; /* slate-300 */
+  color: #475569; /* slate-600 */
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.day-action-button:hover {
+  background-color: #f1f5f9; /* slate-100 */
+  border-color: #94a3b8; /* slate-400 */
+}
+
 .availability-table input[type="checkbox"] {
   width: 1.15rem;
   height: 1.15rem;
