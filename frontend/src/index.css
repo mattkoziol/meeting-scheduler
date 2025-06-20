@@ -4,44 +4,38 @@
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background: #f1f5f9; /* slate-100 */
+  background-color: #f1f5f9; /* slate-100 */
   color: #334155; /* slate-700 */
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.max-w-xl, .max-w-md, .max-w-4xl {
-  margin-left: auto;
-  margin-right: auto;
+/* --- Container & Form --- */
+.container {
+  margin: 1rem auto;
+  padding: 0 1rem;
+  max-width: 56rem;
 }
 
-@media (max-width: 600px) {
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-  th, td {
-    min-width: 80px;
-    box-sizing: border-box;
-  }
-}
-
-/* General Form & Layout Styles */
-.form-container {
-  max-width: 56rem; /* equivalent to max-w-2xl */
-  margin: 2rem auto;
-  padding: 1rem;
+.form-card {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  padding: 1.5rem;
 }
 
 @media (min-width: 640px) {
-  .form-container {
+  .container {
+    margin: 2rem auto;
+  }
+  .form-card {
     padding: 2rem;
   }
 }
 
 .form-title {
-  font-size: 1.5rem; /* text-2xl */
+  font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
 }
@@ -58,23 +52,28 @@ body {
 }
 
 .form-input {
+  display: block;
   width: 100%;
   padding: 0.65rem 0.75rem;
   border: 1px solid #cbd5e1; /* slate-300 */
-  border-radius: 6px;
+  border-radius: 0.375rem;
   box-sizing: border-box;
+  font-size: 1rem;
 }
 
+/* --- Buttons --- */
 .form-button {
+  display: inline-block;
   background-color: #4f46e5; /* indigo-600 */
   color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.375rem;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
   transition: background-color 0.2s;
+  text-align: center;
 }
 
 .form-button:hover {
@@ -93,37 +92,36 @@ body {
   background-color: #b91c1c; /* red-700 */
 }
 
-.error-message {
-  color: #dc2626; /* text-red-600 */
-  margin-bottom: 1rem;
-}
-
-/* Availability Table Specific Styles */
-.availability-grid-container {
+/* --- Availability Table --- */
+.table-container {
   overflow-x: auto;
   border: 1px solid #e2e8f0; /* slate-200 */
-  border-radius: 8px;
+  border-radius: 0.5rem;
   margin-bottom: 1.5rem;
 }
 
 .availability-table {
   width: 100%;
-  min-width: 700px; /* Force horizontal scroll on small screens */
+  min-width: 600px;
   border-collapse: collapse;
 }
 
 .availability-table th,
 .availability-table td {
-  border: 1px solid #e2e8f0;
-  padding: 0.5rem;
+  padding: 0.75rem 0.5rem;
   text-align: center;
-  vertical-align: middle;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.availability-table th {
-  font-size: 0.75rem; /* text-xs */
+.availability-table thead th {
+  font-size: 0.75rem;
   white-space: nowrap;
   background-color: #f8fafc; /* slate-50 */
+  border-bottom-width: 2px;
+}
+
+.availability-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 .availability-table td:first-child {
@@ -135,26 +133,38 @@ body {
   position: sticky;
   left: 0;
   z-index: 10;
+  border-right: 1px solid #e2e8f0;
 }
 
 .availability-table input[type="checkbox"] {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.15rem;
+  height: 1.15rem;
   accent-color: #4f46e5;
 }
 
-/* Results Page Specifics */
+/* --- Results Page Header --- */
 .results-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
 
+@media (min-width: 768px) {
+  .results-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
 .results-header .button-group {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* --- Utility & Misc --- */
+.error-message {
+  color: #dc2626; /* text-red-600 */
+  margin-bottom: 1rem;
 }

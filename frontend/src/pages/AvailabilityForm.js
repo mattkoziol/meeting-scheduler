@@ -59,59 +59,61 @@ export default function AvailabilityForm({ onSubmitted }) {
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <h2 className="form-title">Submit Your Availability</h2>
-        
-        <div className="form-field">
-          <label className="form-label" htmlFor="name">Full Name *</label>
-          <input id="name" className="form-input" value={name} onChange={e => setName(e.target.value)} required />
-        </div>
-        
-        <div className="form-field">
-          <label className="form-label" htmlFor="email">Email (optional)</label>
-          <input id="email" className="form-input" value={email} onChange={e => setEmail(e.target.value)} type="email" />
-        </div>
+    <div className="container">
+      <div className="form-card">
+        <form onSubmit={handleSubmit}>
+          <h2 className="form-title">Submit Your Availability</h2>
+          
+          <div className="form-field">
+            <label className="form-label" htmlFor="name">Full Name *</label>
+            <input id="name" className="form-input" value={name} onChange={e => setName(e.target.value)} required />
+          </div>
+          
+          <div className="form-field">
+            <label className="form-label" htmlFor="email">Email (optional)</label>
+            <input id="email" className="form-input" value={email} onChange={e => setEmail(e.target.value)} type="email" />
+          </div>
 
-        <label className="form-label">Select your available times:</label>
-        <div className="availability-grid-container">
-          <table className="availability-table">
-            <thead>
-              <tr>
-                <th></th>
-                {hours.map(hour => (
-                  <th key={hour}>{formatHour(hour)}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {days.map(day => (
-                <tr key={day}>
-                  <td>{day}</td>
-                  {hours.map(hour => {
-                    const key = `${day}_${hour.toString().padStart(2, '0')}`;
-                    return (
-                      <td key={key}>
-                        <input
-                          type="checkbox"
-                          checked={!!selected[key]}
-                          onChange={() => handleCheck(day, hour)}
-                        />
-                      </td>
-                    );
-                  })}
+          <label className="form-label">Select your available times:</label>
+          <div className="table-container">
+            <table className="availability-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  {hours.map(hour => (
+                    <th key={hour}>{formatHour(hour)}</th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        
-        {error && <div className="error-message">{error}</div>}
-        
-        <button type="submit" className="form-button" disabled={loading}>
-          {loading ? 'Submitting...' : 'Submit Availability'}
-        </button>
-      </form>
+              </thead>
+              <tbody>
+                {days.map(day => (
+                  <tr key={day}>
+                    <td>{day}</td>
+                    {hours.map(hour => {
+                      const key = `${day}_${hour.toString().padStart(2, '0')}`;
+                      return (
+                        <td key={key}>
+                          <input
+                            type="checkbox"
+                            checked={!!selected[key]}
+                            onChange={() => handleCheck(day, hour)}
+                          />
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          {error && <div className="error-message">{error}</div>}
+          
+          <button type="submit" className="form-button" disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit Availability'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 } 

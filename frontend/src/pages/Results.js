@@ -76,69 +76,71 @@ export default function Results() {
   };
 
   return (
-    <div className="form-container">
-      <div className="results-header">
-        <h2 className="form-title" style={{ margin: 0 }}>Availability Heatmap</h2>
-        <div className="button-group">
-          <button onClick={handleGenerateExample} disabled={loading} className="form-button">
-            {loading ? 'Generating...' : 'Generate Data'}
-          </button>
-          <button onClick={handleClearData} disabled={clearing} className="form-button button-danger">
-            {clearing ? 'Clearing...' : 'Clear Data'}
-          </button>
+    <div className="container">
+      <div className="form-card">
+        <div className="results-header">
+          <h2 className="form-title" style={{ margin: 0 }}>Availability Heatmap</h2>
+          <div className="button-group">
+            <button onClick={handleGenerateExample} disabled={loading} className="form-button">
+              {loading ? 'Generating...' : 'Generate Data'}
+            </button>
+            <button onClick={handleClearData} disabled={clearing} className="form-button button-danger">
+              {clearing ? 'Clearing...' : 'Clear Data'}
+            </button>
+          </div>
         </div>
-      </div>
-      <p style={{ margin: '0 0 1.5rem 0', color: '#64748b' }}>Total submissions: {total}</p>
-      
-      <div className="availability-grid-container">
-        <table className="availability-table">
-          <thead>
-            <tr>
-              <th></th>
-              {hours.map(hour => <th key={hour}>{formatHour(hour)}</th>)}
-            </tr>
-          </thead>
-          <tbody>
-            {days.map(day => (
-              <tr key={day}>
-                <td>{day}</td>
-                {hours.map(hour => {
-                  const key = `${day}_${hour.toString().padStart(2, '0')}`;
-                  const count = summary[key] || 0;
-                  const isBest = bestSlots.includes(key);
-                  return (
-                    <td
-                      key={key}
-                      style={{ 
-                        background: getColor(count, max),
-                        border: isBest ? '2px solid #3b82f6' : undefined,
-                        color: isBest ? '#1e3a8a' : undefined,
-                        fontWeight: isBest ? '700' : 'normal'
-                      }}
-                    >
-                      {count > 0 ? count : ''}
-                      {isBest && <span title="Best time!" style={{marginLeft: '4px'}}>⭐</span>}
-                    </td>
-                  );
-                })}
+        <p style={{ margin: '0 0 1.5rem 0', color: '#64748b' }}>Total submissions: {total}</p>
+        
+        <div className="table-container">
+          <table className="availability-table">
+            <thead>
+              <tr>
+                <th></th>
+                {hours.map(hour => <th key={hour}>{formatHour(hour)}</th>)}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {days.map(day => (
+                <tr key={day}>
+                  <td>{day}</td>
+                  {hours.map(hour => {
+                    const key = `${day}_${hour.toString().padStart(2, '0')}`;
+                    const count = summary[key] || 0;
+                    const isBest = bestSlots.includes(key);
+                    return (
+                      <td
+                        key={key}
+                        style={{ 
+                          background: getColor(count, max),
+                          border: isBest ? '2px solid #3b82f6' : undefined,
+                          color: isBest ? '#1e3a8a' : undefined,
+                          fontWeight: isBest ? '700' : 'normal'
+                        }}
+                      >
+                        {count > 0 ? count : ''}
+                        {isBest && <span title="Best time!" style={{marginLeft: '4px'}}>⭐</span>}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      <div>
-        <h3 style={{fontWeight: 600, fontSize: '1.125rem', marginTop: '2rem'}}>Top Matched Time(s):</h3>
-        {bestSlots.length === 0 ? (
-          <p>No submissions yet.</p>
-        ) : (
-          <ul>
-            {bestSlots.map(slot => {
-              const [day, hour] = slot.split('_');
-              return <li key={slot}>{day} at {formatHour(Number(hour))}</li>;
-            })}
-          </ul>
-        )}
+        <div>
+          <h3 style={{fontWeight: 600, fontSize: '1.125rem', marginTop: '2rem'}}>Top Matched Time(s):</h3>
+          {bestSlots.length === 0 ? (
+            <p>No submissions yet.</p>
+          ) : (
+            <ul>
+              {bestSlots.map(slot => {
+                const [day, hour] = slot.split('_');
+                return <li key={slot}>{day} at {formatHour(Number(hour))}</li>;
+              })}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
