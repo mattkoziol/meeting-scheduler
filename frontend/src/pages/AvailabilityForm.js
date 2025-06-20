@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-const hours = Array.from({ length: 12 }, (_, i) => 9 + i); // 9AM to 9PM
+const hours = Array.from({ length: 12 }, (_, i) => 9 + i); // 9AM to 8PM is 12 hours
 
 function formatHour(hour) {
-  const ampm = hour >= 12 ? 'PM' : 'AM';
-  const display = hour > 12 ? hour - 12 : hour;
-  return `${display}:00 ${ampm}`;
+  if (hour === 12) return '12:00 PM';
+  const ampm = hour > 12 ? 'PM' : 'AM';
+  const displayHour = hour > 12 ? hour - 12 : hour;
+  return `${displayHour}:00 ${ampm}`;
 }
 
 export default function AvailabilityForm({ onSubmitted }) {
@@ -48,8 +49,6 @@ export default function AvailabilityForm({ onSubmitted }) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      const data = await response.json();
-      console.log('Success:', data);
       onSubmitted();
     } catch (error) {
       console.error('Error:', error);
@@ -60,51 +59,59 @@ export default function AvailabilityForm({ onSubmitted }) {
   };
 
   return (
-    <form className="max-w-xl mx-auto p-4" onSubmit={handleSubmit}>
-      <h2 className="text-2xl font-bold mb-4">Submit Your Availability</h2>
-      <div className="mb-2">
-        <label className="block mb-1">Full Name *</label>
-        <input className="border p-2 w-full" value={name} onChange={e => setName(e.target.value)} required />
-      </div>
-      <div className="mb-2">
-        <label className="block mb-1">Email (optional)</label>
-        <input className="border p-2 w-full" value={email} onChange={e => setEmail(e.target.value)} type="email" />
-      </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full border mb-4">
-          <thead>
-            <tr>
-              <th className="border p-1"></th>
-              {hours.map(hour => (
-                <th key={hour} className="border p-1 text-xs">{formatHour(hour)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {days.map(day => (
-              <tr key={day}>
-                <td className="border p-1 font-semibold">{day}</td>
-                {hours.map(hour => {
-                  const key = `${day}_${hour.toString().padStart(2, '0')}`;
-                  return (
-                    <td key={key} className="border p-1 text-center">
-                      <input
-                        type="checkbox"
-                        checked={!!selected[key]}
-                        onChange={() => handleCheck(day, hour)}
-                      />
-                    </td>
-                  );
-                })}
+    <div className="form-container">
+      <form onSubmit={handleSubmit}>
+        <h2 className="form-title">Submit Your Availability</h2>
+        
+        <div className="form-field">
+          <label className="form-label" htmlFor="name">Full Name *</label>
+          <input id="name" className="form-input" value={name} onChange={e => setName(e.target.value)} required />
+        </div>
+        
+        <div className="form-field">
+          <label className="form-label" htmlFor="email">Email (optional)</label>
+          <input id="email" className="form-input" value={email} onChange={e => setEmail(e.target.value)} type="email" />
+        </div>
+
+        <label className="form-label">Select your available times:</label>
+        <div className="availability-grid-container">
+          <table className="availability-table">
+            <thead>
+              <tr>
+                <th></th>
+                {hours.map(hour => (
+                  <th key={hour}>{formatHour(hour)}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {error && <div className="text-red-600 mb-2">{error}</div>}
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded" disabled={loading}>
-        {loading ? 'Submitting...' : 'Submit'}
-      </button>
-    </form>
+            </thead>
+            <tbody>
+              {days.map(day => (
+                <tr key={day}>
+                  <td>{day}</td>
+                  {hours.map(hour => {
+                    const key = `${day}_${hour.toString().padStart(2, '0')}`;
+                    return (
+                      <td key={key}>
+                        <input
+                          type="checkbox"
+                          checked={!!selected[key]}
+                          onChange={() => handleCheck(day, hour)}
+                        />
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+        {error && <div className="error-message">{error}</div>}
+        
+        <button type="submit" className="form-button" disabled={loading}>
+          {loading ? 'Submitting...' : 'Submit Availability'}
+        </button>
+      </form>
+    </div>
   );
 } 
