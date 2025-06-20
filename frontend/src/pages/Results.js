@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { submitExampleData } from './__EXAMPLE_DATA__';
 
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const days = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday'];
 const hours = Array.from({ length: 12 }, (_, i) => 9 + i);
 
 function formatHour(hour) {
