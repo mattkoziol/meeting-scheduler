@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const hours = Array.from({ length: 12 }, (_, i) => 9 + i); // 9AM to 8PM is 12 hours
 
 function formatHour(hour) {
